@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:twitter_clone/constants/assets_constants.dart';
 import 'package:twitter_clone/constants/ui_constants.dart';
+import 'package:twitter_clone/features/auth/tweet/view/create_tweet_view.dart';
 import 'package:twitter_clone/theme/pallet.dart';
 
 class HomeView extends StatefulWidget {
@@ -23,6 +24,10 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
+  onCreateTweet() {
+    Navigator.push(context, CreateTweetScreen.route());
+  }
+
   @override
   final appBar = UIConstants.appBar();
   Widget build(BuildContext context) {
@@ -30,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
       appBar: appBar,
       body: IndexedStack(index: _page, children: UIConstants.bottomTabBarPages),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: onCreateTweet,
         child: const Icon(
           Icons.add,
           color: Pallete.whiteColor,

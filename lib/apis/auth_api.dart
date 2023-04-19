@@ -30,10 +30,11 @@ class AuthAPI extends IAuthAPI {
   Future<model.User?> currentUserAccount() async {
     try {
       return await _account.get();
-    } on AppwriteException catch (e, stackTrace) {
+    } on AppwriteException {
       return null;
-    } catch (e, stackTrace) {}
-    return null;
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
