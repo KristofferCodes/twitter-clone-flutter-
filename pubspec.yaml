@@ -38,6 +38,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   appwrite: ^9.0.0
   flutter_svg: ^1.1.6
+  flutter_riverpod: ^2.3.5
+  fpdart: ^0.5.0
+  image_picker: ^0.8.7+3
+  carousel_slider: ^4.2.1
+  timeago: ^3.4.0
+  any_link_preview: ^3.0.0
+  like_button: ^2.0.5
 
 dev_dependencies:
   flutter_test:
