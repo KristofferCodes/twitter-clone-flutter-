@@ -5,7 +5,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:twitter_clone/constants/appwrite_constants.dart';
 import 'package:twitter_clone/core/core.dart';
 import 'package:twitter_clone/core/provider.dart';
-import 'package:twitter_clone/models/user_models.dart';
+import 'package:twitter_clone/models/user_model.dart';
 
 final userAPIProvider = Provider((ref) {
   return UserAPI(db: ref.watch(appwriteDatabaseProvider));
@@ -25,7 +25,7 @@ class UserAPI implements IUserAPI {
     try {
       await _db.createDocument(
           databaseId: AppWriteConstants.databaseId,
-          collectionId: AppWriteConstants.collectionId,
+          collectionId: AppWriteConstants.usersCollection,
           documentId: userModel.uid,
           data: userModel.toMap());
       return right(null);
@@ -40,7 +40,7 @@ class UserAPI implements IUserAPI {
   Future<model.Document> getUserData(String uid) {
     return _db.getDocument(
         databaseId: AppWriteConstants.databaseId,
-        collectionId: AppWriteConstants.collectionId,
+        collectionId: AppWriteConstants.usersCollection,
         documentId: uid);
   }
 }

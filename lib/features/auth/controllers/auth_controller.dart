@@ -5,7 +5,7 @@ import 'package:twitter_clone/apis/user_api.dart';
 import 'package:twitter_clone/core/utils.dart';
 import 'package:twitter_clone/features/auth/view/login_view.dart';
 import 'package:appwrite/models.dart' as model;
-import 'package:twitter_clone/models/user_models.dart';
+import 'package:twitter_clone/models/user_model.dart';
 
 import '../home/view/home_view.dart';
 
@@ -19,6 +19,7 @@ final authControllerProvider =
 
 final currentUserDetailsProvider = FutureProvider((ref) {
   final currentUserId = ref.watch(currentUserAccountProvider).value!.$id;
+  print(currentUserId);
   final userDetails = ref.watch(userDetailsProvider(currentUserId));
   return userDetails.value;
 });

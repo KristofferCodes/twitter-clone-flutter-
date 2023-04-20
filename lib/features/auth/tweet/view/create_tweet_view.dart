@@ -8,6 +8,7 @@ import 'package:twitter_clone/common/common.dart';
 import 'package:twitter_clone/constants/assets_constants.dart';
 import 'package:twitter_clone/core/utils.dart';
 import 'package:twitter_clone/features/auth/controllers/auth_controller.dart';
+import 'package:twitter_clone/features/auth/tweet/controller/tweet_controller.dart';
 import 'package:twitter_clone/theme/pallet.dart';
 
 class CreateTweetScreen extends ConsumerStatefulWidget {
@@ -31,6 +32,11 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
     tweetTextController.dispose();
   }
 
+  void shareTweet() {
+    ref.read(tweetControllerProvider.notifier).shareTweet(
+        images: images, text: tweetTextController.text, context: context);
+  }
+
   void onPickImages() async {
     images = await pickImages();
     setState(() {});
@@ -39,6 +45,8 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserDetailsProvider).value;
+    final isLoading = ref.watch(tweetControllerProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -49,57 +57,60 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
         ),
         actions: [
           RoundedSmallButton(
-              onTap: () {},
+              onTap: shareTweet,
               label: 'Tweet',
               backgroundColor: Pallete.blueColor,
               textColor: Pallete.whiteColor)
         ],
       ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Pallete.blueColor,
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: TextField(
-                    controller: tweetTextController,
-                    style: const TextStyle(
-                      fontSize: 22,
-                    ),
-                    decoration: const InputDecoration(
-                        hintText: "what's happening?",
-                        hintStyle: TextStyle(
-                            color: Pallete.greyColor,
+      body: isLoading || currentUser == null
+          ? const Loader()
+          : SafeArea(
+              child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(currentUser.profilePic),
+                        radius: 30,
+                        backgroundColor: Pallete.blueColor,
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: TextField(
+                          controller: tweetTextController,
+                          style: const TextStyle(
                             fontSize: 22,
-                            fontWeight: FontWeight.w600),
-                        border: InputBorder.none),
-                    maxLines: null,
-                  ),
-                )
-              ],
-            ),
-            if (images.isNotEmpty)
-              CarouselSlider(
-                  items: images.map((file) {
-                    return Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 5,
+                          ),
+                          decoration: const InputDecoration(
+                              hintText: "what's happening?",
+                              hintStyle: TextStyle(
+                                  color: Pallete.greyColor,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600),
+                              border: InputBorder.none),
+                          maxLines: null,
                         ),
-                        child: Image.file(file));
-                  }).toList(),
-                  options: CarouselOptions(
-                    height: 400,
-                    enableInfiniteScroll: false,
-                  ))
-          ],
-        ),
-      )),
+                      )
+                    ],
+                  ),
+                  if (images.isNotEmpty)
+                    CarouselSlider(
+                        items: images.map((file) {
+                          return Container(
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                              ),
+                              child: Image.file(file));
+                        }).toList(),
+                        options: CarouselOptions(
+                          height: 400,
+                          enableInfiniteScroll: false,
+                        ))
+                ],
+              ),
+            )),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(bottom: 10),
         decoration: const BoxDecoration(
