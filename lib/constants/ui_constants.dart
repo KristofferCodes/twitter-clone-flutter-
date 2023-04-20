@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:twitter_clone/constants/constants.dart';
 import 'package:twitter_clone/theme/pallet.dart';
 
+import '../features/auth/tweet/widgets/tweet_list.dart';
+
 class ReUsableAppBar extends StatelessWidget {
   const ReUsableAppBar({super.key});
 
@@ -26,8 +28,8 @@ class UIConstants {
     );
   }
 
-  static List<Widget> bottomTabBarPages = [
-    Text('Feed Screen'),
+  static const List<Widget> bottomTabBarPages = [
+    TweetList(),
     Text('Search Screen'),
     Text('Notification Screen')
   ];
