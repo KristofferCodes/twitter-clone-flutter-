@@ -18,19 +18,22 @@ class Tweet {
   final String id;
   final int reshareCount;
   final String retweetedBy;
-  Tweet(
-      {required this.text,
-      required this.hashtags,
-      required this.link,
-      required this.imageLinks,
-      required this.uid,
-      required this.tweetType,
-      required this.tweetedAt,
-      required this.likes,
-      required this.commentIds,
-      required this.id,
-      required this.reshareCount,
-      required this.retweetedBy});
+  final String repliedTo;
+  Tweet({
+    required this.text,
+    required this.hashtags,
+    required this.link,
+    required this.imageLinks,
+    required this.uid,
+    required this.tweetType,
+    required this.tweetedAt,
+    required this.likes,
+    required this.commentIds,
+    required this.id,
+    required this.reshareCount,
+    required this.retweetedBy,
+    required this.repliedTo,
+  });
 
   Tweet copyWith(
       {String? text,
@@ -44,7 +47,8 @@ class Tweet {
       List<String>? commentIds,
       String? id,
       int? reshareCount,
-      String? retweetedBy}) {
+      String? retweetedBy,
+      String? repliedTo}) {
     return Tweet(
         text: text ?? this.text,
         hashtags: hashtags ?? this.hashtags,
@@ -57,7 +61,8 @@ class Tweet {
         commentIds: commentIds ?? this.commentIds,
         id: id ?? this.id,
         reshareCount: reshareCount ?? this.reshareCount,
-        retweetedBy: retweetedBy ?? this.retweetedBy);
+        retweetedBy: retweetedBy ?? this.retweetedBy,
+        repliedTo: repliedTo ?? this.repliedTo);
   }
 
   Map<String, dynamic> toMap() {
@@ -72,30 +77,31 @@ class Tweet {
       'likes': likes,
       'commentIds': commentIds,
       'reshareCount': reshareCount,
-      'retweetedBy': retweetedBy
+      'retweetedBy': retweetedBy,
+      'repliedTo': repliedTo
     };
   }
 
   factory Tweet.fromMap(Map<String, dynamic> map) {
     return Tweet(
-      text: map['text'] ?? '',
-      hashtags: List<String>.from(map['hashtags']),
-      link: map['link'] ?? '',
-      imageLinks: List<String>.from(map['imageLinks']),
-      uid: map['uid'] as String,
-      tweetType: (map['tweetType'] as String).toTweetTypeEnum(),
-      tweetedAt: DateTime.fromMillisecondsSinceEpoch(map['tweetedAt'] as int),
-      likes: List<String>.from(map['likes']),
-      commentIds: List<String>.from(map['commentIds']),
-      id: map['\$id'] ?? '',
-      reshareCount: map['reshareCount']?.toInt() ?? 0,
-      retweetedBy: map['retweetedBy'] ?? '',
-    );
+        text: map['text'] ?? '',
+        hashtags: List<String>.from(map['hashtags']),
+        link: map['link'] ?? '',
+        imageLinks: List<String>.from(map['imageLinks']),
+        uid: map['uid'] as String,
+        tweetType: (map['tweetType'] as String).toTweetTypeEnum(),
+        tweetedAt: DateTime.fromMillisecondsSinceEpoch(map['tweetedAt'] as int),
+        likes: List<String>.from(map['likes']),
+        commentIds: List<String>.from(map['commentIds']),
+        id: map['\$id'] ?? '',
+        reshareCount: map['reshareCount']?.toInt() ?? 0,
+        retweetedBy: map['retweetedBy'] ?? '',
+        repliedTo: map['repliedTo'] ?? '');
   }
 
   @override
   String toString() {
-    return 'Tweet(text: $text, hashtags: $hashtags, link: $link, imageLinks: $imageLinks, uid: $uid, tweetType: $tweetType, tweetedAt: $tweetedAt, likes: $likes, commentIds: $commentIds, id: $id, reshareCount: $reshareCount, retweetedBy: $retweetedBy)';
+    return 'Tweet(text: $text, hashtags: $hashtags, link: $link, imageLinks: $imageLinks, uid: $uid, tweetType: $tweetType, tweetedAt: $tweetedAt, likes: $likes, commentIds: $commentIds, id: $id, reshareCount: $reshareCount, retweetedBy: $retweetedBy, repliedTo: $repliedTo)';
   }
 
   @override
@@ -114,7 +120,8 @@ class Tweet {
         listEquals(other.commentIds, commentIds) &&
         other.id == id &&
         other.reshareCount == reshareCount &&
-        other.retweetedBy == retweetedBy;
+        other.retweetedBy == retweetedBy &&
+        other.repliedTo == repliedTo;
   }
 
   @override
@@ -130,6 +137,7 @@ class Tweet {
         commentIds.hashCode ^
         id.hashCode ^
         reshareCount.hashCode ^
-        retweetedBy.hashCode;
+        retweetedBy.hashCode ^
+        repliedTo.hashCode;
   }
 }
