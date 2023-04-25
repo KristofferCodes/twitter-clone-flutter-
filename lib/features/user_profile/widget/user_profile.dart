@@ -77,7 +77,7 @@ class UserProfile extends ConsumerWidget {
                   ),
                 ),
                 SliverPadding(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   sliver: SliverList(
                       delegate: SliverChildListDelegate([
                     Text(

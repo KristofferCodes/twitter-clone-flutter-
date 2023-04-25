@@ -24,6 +24,11 @@ final getUserTweetsProvider = FutureProvider.family((ref, String uid) async {
   return userProfileController.getUserTweets(uid);
 });
 
+final getLatestUserProfileDataProvider = StreamProvider((ref) {
+  final userApi = ref.watch(userAPIProvider);
+  return userApi.getLatestUserProfileData();
+});
+
 class UserProfileController extends StateNotifier<bool> {
   final TweetAPI _tweetAPI;
   final StorageAPI _storageAPI;
